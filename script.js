@@ -15,12 +15,10 @@ form.addEventListener("submit", async (event) => {
   }
 
   errorBox.hidden = true;
-  errorBox.hidden = true;
   loadingBox.hidden = false;
 
   try {
     const place = await getCoordinates(city);
-    f;
     console.log(place);
   } catch (error) {
     errorBox.textContent = error.message;
@@ -31,7 +29,6 @@ form.addEventListener("submit", async (event) => {
 });
 async function getCoordinates(city) {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
-
   const response = await fetch(url);
 
   if (!response.ok) {

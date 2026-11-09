@@ -1,29 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Météo multi-villes</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main>
-    <h1>Météo</h1>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Météo multi-villes</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Météo</h1>
 
-    <form id="search-form">
-      <label for="city">Nom de la ville</label>
-      <input type="text" id="city" placeholder="Ex. Fès">
-      <button type="submit">Rechercher</button>
-    </form>
+      <form id="search-form">
+        <label for="city">Nom de la ville</label>
+        <input type="text" id="city" placeholder="Ex. Fès" />
+        <button type="submit">Rechercher</button>
+      </form>
 
-    <div id="loading" hidden>Chargement...</div>
-    <div id="error" hidden></div>
+      <div id="loading" hidden>Chargement...</div>
+      <div id="error" hidden></div>
 
-    <section id="current"></section>
-    <section id="forecast"></section>
-  </main>
+      <section id="current"></section>
+      <section id="forecast"></section>
+    </main>
 
-  <script src="script.js" defer></script>
-  <script src="style.css" defer></script>
-</body>
+    <script src="script.js" defer></script>
+  </body>
 </html>
