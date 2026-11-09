@@ -1,9 +1,9 @@
 const form = document.querySelector("#search-form");
 const cityInput = document.querySelector("#city");
 const errorBox = document.querySelector("#error");
+const loadingBox = document.querySelector("#loading");
 
-form.addEventListener("submit", (event) => {
-  // Stop the browser from reloading the page
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const city = cityInput.value.trim();
@@ -15,5 +15,34 @@ form.addEventListener("submit", (event) => {
   }
 
   errorBox.hidden = true;
-  // The API call goes here in step 3
+  errorBox.hidden = true;
+  loadingBox.hidden = false;
+
+  try {
+    const place = await getCoordinates(city);
+    f;
+    console.log(place);
+  } catch (error) {
+    errorBox.textContent = error.message;
+    errorBox.hidden = false;
+  } finally {
+    loadingBox.hidden = true;
+  }
 });
+async function getCoordinates(city) {
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("Service indisponible, réessayez plus tard.");
+  }
+
+  const data = await response.json();
+
+  if (!data.results) {
+    throw new Error("Ville introuvable.");
+  }
+  const place = data.results[0];
+  return { lat: place.latitude, lon: place.longitude, name: place.name };
+}
