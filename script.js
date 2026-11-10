@@ -29,7 +29,7 @@ searchButton.addEventListener("click", async (event) => {
   }
 });
 async function getCoordinates(city) {
-  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${(city)}&count=1`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`;
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -43,4 +43,12 @@ async function getCoordinates(city) {
   }
   const place = data.results[0];
   return { lat: place.latitude, lon: place.longitude, name: place.name };
+}
+async function getForecast(lat, lon) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`;
+  const response = await fetch(url);
+    if (!response.ok) {
+    throw new Error("Impossible de charger la météo.");
+  }
+    return await response.json();
 }
