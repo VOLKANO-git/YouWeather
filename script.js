@@ -20,7 +20,12 @@ searchButton.addEventListener("click", async (event) => {
 
   try {
     const place = await getCoordinates(city);
-    console.log(place);
+    const forecast = await getForecast(place.lat, place.lon);
+
+    console.log(forecast.current);
+    console.log(forecast.current_units);
+
+    renderCurrent(place, forecast);
   } catch (error) {
     errorBox.textContent = error.message;
     errorBox.hidden = false;
@@ -33,7 +38,7 @@ async function getCoordinates(city) {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("Service indisponible, réessayez plus tard.");
+    throw new Error("Service indisponible; réessayez plus tard.");
   }
 
   const data = await response.json();
@@ -47,8 +52,8 @@ async function getCoordinates(city) {
 async function getForecast(lat, lon) {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`;
   const response = await fetch(url);
-    if (!response.ok) {
+  if (!response.ok) {
     throw new Error("Impossible de charger la météo.");
   }
-    return await response.json();
+  return await response.json();
 }
