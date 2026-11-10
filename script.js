@@ -124,4 +124,4 @@ function renderCurrent(place, forecast) {
 
   card.append(title, icon, temp, label, humidity, wind);
   container.append(card);
-}
+}  
