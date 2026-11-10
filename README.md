@@ -1,6 +1,4 @@
-### Chosen URL
 
-https://api.open-meteo.com/v1/forecast?latitude=33.8935&longitude=-5.5473&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=auto
 
 ### Timezone choice
 
