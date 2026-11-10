@@ -2,8 +2,9 @@ const form = document.querySelector("#search-form");
 const cityInput = document.querySelector("#city");
 const errorBox = document.querySelector("#error");
 const loadingBox = document.querySelector("#loading");
+const searchButton = document.querySelector("#search-button");
 
-form.addEventListener("submit", async (event) => {
+searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
 
   const city = cityInput.value.trim();
@@ -28,7 +29,7 @@ form.addEventListener("submit", async (event) => {
   }
 });
 async function getCoordinates(city) {
-  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${(city)}&count=1`;
   const response = await fetch(url);
 
   if (!response.ok) {
