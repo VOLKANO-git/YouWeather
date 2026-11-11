@@ -21,6 +21,7 @@ searchButton.addEventListener("click", async (event) => {
     const place = await getCoordinates(city);
     const forecast = await getForecast(place.lat, place.lon);
     renderCurrent(place, forecast);
+    renderForecast(forecast);
   } catch (error) {
     errorBox.textContent = error.message;
     errorBox.hidden = false;
