@@ -6,7 +6,6 @@ const searchButton = document.querySelector("#search-button");
 
 searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
-
   const city = cityInput.value.trim();
 
   if (city === "") {
@@ -21,10 +20,6 @@ searchButton.addEventListener("click", async (event) => {
   try {
     const place = await getCoordinates(city);
     const forecast = await getForecast(place.lat, place.lon);
-
-    console.log(forecast.current);
-    console.log(forecast.current_units);
-
     renderCurrent(place, forecast);
   } catch (error) {
     errorBox.textContent = error.message;
@@ -33,16 +28,15 @@ searchButton.addEventListener("click", async (event) => {
     loadingBox.hidden = true;
   }
 });
+
 async function getCoordinates(city) {
-  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
   const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error("Service indisponible; réessayez plus tard.");
   }
-
   const data = await response.json();
-
   if (!data.results) {
     throw new Error("Ville introuvable.");
   }
@@ -50,11 +44,13 @@ async function getCoordinates(city) {
   return { lat: place.latitude, lon: place.longitude, name: place.name };
 }
 async function getForecast(lat, lon) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
   const response = await fetch(url);
+
   if (!response.ok) {
     throw new Error("Impossible de charger la météo.");
   }
+
   return await response.json();
 }
 
@@ -88,40 +84,34 @@ const WEATHER_CODES = {
   96: { label: "Orage avec grêle", icon: "⛈️" },
   99: { label: "Orage avec forte grêle", icon: "⛈️" },
 };
+
 function getWeatherInfo(code) {
   return WEATHER_CODES[code] ?? { label: "Inconnu", icon: "❓" };
 }
+
 function renderCurrent(place, forecast) {
   const current = forecast.current;
   const units = forecast.current_units;
   const info = getWeatherInfo(current.weather_code);
 
   const container = document.querySelector("#current");
-  container.textContent = ""; 
-
+  container.textContent = "";
   const card = document.createElement("article");
   card.className = "card";
-
   const title = document.createElement("h2");
   title.textContent = place.name;
-
   const icon = document.createElement("p");
   icon.className = "icon";
   icon.textContent = info.icon;
-
   const temp = document.createElement("p");
   temp.className = "temp";
   temp.textContent = `${current.temperature_2m} ${units.temperature_2m}`;
-
   const label = document.createElement("p");
   label.textContent = info.label;
-
   const humidity = document.createElement("p");
   humidity.textContent = `Humidité : ${current.relative_humidity_2m} ${units.relative_humidity_2m}`;
-
   const wind = document.createElement("p");
   wind.textContent = `Vent : ${current.wind_speed_10m} ${units.wind_speed_10m}`;
-
   card.append(title, icon, temp, label, humidity, wind);
   container.append(card);
-}  
+}
