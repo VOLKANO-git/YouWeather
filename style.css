@@ -46,17 +46,19 @@ h1 {
 }
 
 #search-form button:hover {
-  background: #1d4ed8;
+  background: #0018A8;
 }
 
 #loading {
   color: #555;
   margin-bottom: 12px;
+  font-weight: bolder;
 }
 
 #error {
   color: #b91c1c;
   padding-bottom: 20px;
+  font-weight: bold;
 }
 
 .forecast {

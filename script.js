@@ -34,10 +34,10 @@ searchButton.addEventListener("click", async (event) => {
 async function getCoordinates(city) {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
   const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Service indisponible, réessayez plus tard.");
-  }
+  checkResponse(response);
+
   const data = await response.json();
+
   if (!data.results) {
     throw new Error("Ville introuvable.");
   }
@@ -48,10 +48,18 @@ async function getCoordinates(city) {
 async function getForecast(lat, lon) {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
   const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Impossible de charger la météo.");
-  }
+  checkResponse(response);
+
   return await response.json();
+}
+
+function checkResponse(response) {
+  if (response.status === 429) {
+    throw new Error("Too many searches. Please try again later.");
+  }
+  if (!response.ok) {
+    throw new Error("Service unavailable, Please try again later.");
+  }
 }
 
 const WEATHER_CODES = {
@@ -88,6 +96,7 @@ const WEATHER_CODES = {
 function getWeatherInfo(code) {
   return WEATHER_CODES[code] ?? { label: "Inconnu", icon: "❓" };
 }
+
 function formatValue(value, unit) {
   if (value === undefined || value === null) {
     return "Donnée indisponible";
