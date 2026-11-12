@@ -2,6 +2,8 @@ const searchButton = document.querySelector("#search-button");
 const cityInput = document.querySelector("#city");
 const errorBox = document.querySelector("#error");
 const loadingBox = document.querySelector("#loading");
+const retryButton = document.querySelector("#retry");
+let lastCity = "";
 
 searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
