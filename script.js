@@ -15,8 +15,9 @@ searchButton.addEventListener("click", async (event) => {
     errorBox.hidden = false;
     return;
   }
-
+  lastCity = city;
   errorBox.hidden = true;
+  retryButton.hidden = true;
   loadingBox.hidden = false;
 
   try {
@@ -28,6 +29,7 @@ searchButton.addEventListener("click", async (event) => {
   } catch (error) {
     errorBox.textContent = error.message;
     errorBox.hidden = false;
+    retryButton.hidden = false;
   } finally {
     loadingBox.hidden = true;
   }
@@ -51,16 +53,15 @@ async function getForecast(lat, lon) {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
   const response = await fetch(url);
   checkResponse(response);
-
   return await response.json();
 }
 
 function checkResponse(response) {
-  if (response.status === 429) {
-    throw new Error("Too many searches. Please try again later.");
+  if (response.status === 404) {
+    throw new Error("Recherche introuvable.");
   }
   if (!response.ok) {
-    throw new Error("Service unavailable, Please try again later.");
+    throw new Error("Service indisponsible, réessayez plus tard.");
   }
 }
 
@@ -123,9 +124,10 @@ function renderCurrent(place, forecast) {
   const temp = document.createElement("p");
   temp.textContent = formatValue(current.temperature_2m, units.temperature_2m);
   const humidity = document.createElement("p");
-  humidity.textContent = "Humidité : " + formatValue(current.relative_humidity_2m, units.relative_humidity_2m);
+  humidity.textContent =  "Humidité : " 
+    formatValue(current.relative_humidity_2m, units.relative_humidity_2m);
   const wind = document.createElement("p");
-  wind.textContent = "Vent : " + formatValue(current.wind_speed_10m, units.wind_speed_10m);
+  wind.textContent =  "Vent : " + formatValue(current.wind_speed_10m, units.wind_speed_10m);
   card.append(title, icon, label, temp, humidity, wind);
   container.append(card);
 }
@@ -158,3 +160,7 @@ function renderForecast(forecast) {
     holder.append(card);
   }
 }
+retryButton.addEventListener("click",()=>{
+  cityInput.value = lastCity;
+  searchButton.click();
+});
