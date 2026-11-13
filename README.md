@@ -6,7 +6,7 @@ Tested on 09/11/2026.
 
 # Application météo multi-villes
 
-Une page web où l'on tape le nom d'une ville pour voir sa météo actuelle et les prévisions des 7 prochains jours.
+Une page web où l'on tape le nom d'une ville pour voir sa météo actuelle et les prévisions des 5 prochains jours.
 
 ## Comment ça marche
 
