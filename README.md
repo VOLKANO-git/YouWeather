@@ -50,7 +50,7 @@ Une page web où l'on tape le nom d'une ville pour voir sa météo actuelle et l
 }
 }
 
-```
+
 
 ## Comment les valeurs s'affichent
 
@@ -62,6 +62,7 @@ Une page web où l'on tape le nom d'une ville pour voir sa météo actuelle et l
 - `daily.temperature_2m_min` et `daily.temperature_2m_max` sont affichées ensemble dans chaque carte, sous la forme température minimale / température maximale (par exemple `16.2°C / 24.1°C`).
 - Si une valeur météo est absente ou `null`, l'application affiche **Donnée indisponible** pour les valeurs passées à `formatValue`.
 
+```
 ## Lancer le projet
 
 1. Télécharger ou cloner le dépôt.
