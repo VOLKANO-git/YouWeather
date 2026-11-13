@@ -50,8 +50,6 @@ Une page web où l'on tape le nom d'une ville pour voir sa météo actuelle et l
 }
 }
 
-
-
 ## Comment les valeurs s'affichent
 
 - `current.temperature_2m` est affichée avec son unité prise dans `current_units.temperature_2m` (par exemple `22.4°C`).
